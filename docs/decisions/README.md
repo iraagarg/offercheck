@@ -11,3 +11,7 @@
 - [ADR 009: The India dataset and labelling notes stay private](009-private-india-dataset.md)
 - [ADR 010: Pasted text limit of 20,000 characters](010-input-size-limit.md)
 - [ADR 011: Clear verdicts with measured confidence](011-clear-verdicts-with-confidence.md)
+- [ADR 012: Local PostgreSQL and Redis in Docker; Neon and Upstash only in production](012-local-infrastructure-in-docker.md)
+- [ADR 013: uv for Python dependencies](013-uv-for-python.md)
+- [ADR 014: How the monorepo is deployed](014-monorepo-deployment.md)
+- [ADR 015: Dependency safety: 14-day release age, security exceptions, compatibility pins](015-dependency-safety-policy.md)

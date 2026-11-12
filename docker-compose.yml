@@ -1,0 +1,53 @@
+# Local development: runs the whole system on your laptop.
+# Uses a local PostgreSQL and Redis (never your cloud Neon/Upstash data). No secrets needed.
+# Only the website and the API are opened on your laptop; postgres, redis and ml are reachable
+# only inside Docker (like production, where the ML service is private).
+# Port already in use on your laptop? Pick others: WEB_PORT=3100 API_PORT=3101 make up
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: offercheck
+      POSTGRES_PASSWORD: offercheck
+      POSTGRES_DB: offercheck
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U offercheck -d offercheck"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:8-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  ml:
+    build: ./services/ml
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      DATABASE_URL: postgres://offercheck:offercheck@postgres:5432/offercheck
+      REDIS_URL: redis://redis:6379
+      ML_URL: http://ml:8000
+      WEB_ORIGIN: http://localhost:${WEB_PORT:-3000}
+    ports: ["${API_PORT:-3001}:3001"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      ml: { condition: service_healthy }
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:${API_PORT:-3001}
+    ports: ["${WEB_PORT:-3000}:3000"]
+    depends_on:
+      api: { condition: service_healthy }

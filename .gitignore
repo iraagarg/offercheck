@@ -9,3 +9,14 @@ __pycache__/
 
 # India dataset stays private: it names real companies next to scam/suspicious labels
 data/india/
+
+# Build output and tool caches
+dist/
+.next/
+coverage/
+*.tsbuildinfo
+.vercel/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+next-env.d.ts

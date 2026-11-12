@@ -1,0 +1,13 @@
+# Never upload secrets or private files to the hosting provider.
+.env
+.env.*
+# Notes at the repository root are not needed to build or run (README.md is kept).
+/*.md
+!/README.md
+data/
+docs/LABELLING_GUIDE.md
+docs/RED_FLAGS.md
+**/node_modules
+**/.venv
+**/.next
+**/dist

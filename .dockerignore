@@ -1,0 +1,17 @@
+**/node_modules
+**/dist
+**/.next
+**/coverage
+**/.venv
+**/__pycache__
+**/.mypy_cache
+**/.ruff_cache
+**/.pytest_cache
+.git
+.github
+.env
+.env.*
+data
+docs
+# Notes at the repository root are not needed to build or run.
+*.md
